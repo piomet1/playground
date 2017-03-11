@@ -7,6 +7,6 @@ Playground.Game.prototype = {
 
     },
     create: function() {
-        
+        this.map = this.game.add.tilemap('level1');        
     }
 }
