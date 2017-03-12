@@ -1,6 +1,6 @@
 var Playground = {
-    GAME_WIDTH: 800,
-    GAME_HEIGHT: 600,
+    GAME_WIDTH: 640,
+    GAME_HEIGHT: 640,
     STATE_TRANSITION_DURATION: 1500
 };
 Playground.Boot = function(game) {
@@ -15,11 +15,16 @@ Playground.Boot.prototype = {
         Phaser.Plugin.StateTransition.Out.SlideRight.duration = Playground.STATE_TRANSITION_DURATION;
     },
     create: function() {
+        this.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
+        this.input.onDown.add(this.goFullscreen, this);
         this.input.onTap.addOnce(function() {
             this.game.state.start(
                 'Preloader',
                 Phaser.Plugin.StateTransition.Out.SlideBottom
             );
         }, this);
+    },
+    goFullscreen: function() {
+        this.scale.startFullScreen(true);
     }
 }
