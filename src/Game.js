@@ -4,7 +4,7 @@ Playground.Game = function(game) {
 
 Playground.Game.prototype = {
     preload : function() {
-
+        this.physics.startSystem(Phaser.Physics.ARCADE);
     },
     create: function() {
         this.map = this.game.add.tilemap('level1');

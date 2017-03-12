@@ -8,23 +8,20 @@ Playground.Boot = function(game) {
 }
 
 Playground.Boot.prototype = {
-    preload : function() {
-        this.stage.backgroundColor = '#000000';
-        this.physics.startSystem(Phaser.Physics.ARCADE);
+    init: function() {
+        this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        this.scale.pageAlignHorizontally = true;
+        this.scale.pageAlignVertically = true;
         Phaser.Plugin.StateTransition.In.SlideLeft.duration = Playground.STATE_TRANSITION_DURATION;
         Phaser.Plugin.StateTransition.Out.SlideRight.duration = Playground.STATE_TRANSITION_DURATION;
     },
-    create: function() {
-        this.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
-        this.input.onDown.add(this.goFullscreen, this);
-        this.input.onTap.addOnce(function() {
-            this.game.state.start(
-                'Preloader',
-                Phaser.Plugin.StateTransition.Out.SlideBottom
-            );
-        }, this);
+    preload: function() {
+        this.load.bitmapFont('title-font', 'assets/fonts/bitmapFonts/title-font.png', 'assets/fonts/bitmapFonts/title-font.xml');
     },
-    goFullscreen: function() {
-        this.scale.startFullScreen(true);
+    create: function() {
+        this.game.state.start(
+            'Preloader',
+            Phaser.Plugin.StateTransition.Out.SlideBottom
+        );
     }
 }
