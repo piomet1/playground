@@ -1,6 +1,6 @@
 var Playground = {
-    GAME_WIDTH: 800,
-    GAME_HEIGHT: 600,
+    GAME_WIDTH: 640,
+    GAME_HEIGHT: 640,
     STATE_TRANSITION_DURATION: 1500
 };
 Playground.Boot = function(game) {
