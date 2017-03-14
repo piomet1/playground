@@ -3,56 +3,11 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>Playground</title>
-        <script src="phaser.js"></script>
+        <script src="phaser.min.js"></script>
         <script src="phaser-state-transition.min.js"></script>
-        <script src="src/Boot.js"></script>
-        <script src="src/Preloader.js"></script>
-        <script src="src/MainMenu.js"></script>
-        <script src="src/Game.js"></script>
-        <script src="src/Win.js"></script>
-        <script src="src/Loose.js"></script>
-        <script>
-            (function() {
-                var game = new Phaser.Game(
-                    Playground.GAME_WIDTH,
-                    Playground.GAME_HEIGHT,
-                    Phaser.CANVAS
-                );
-
-                game.getTranslation = function(key, data) {
-                    if (this.translations[key]) {
-                        data = data ? data : {};
-                        var translations = this.translations;
-                        return this.translations[key].replace(/{\w+}/g, function(placeholder) {
-                            if (data[placeholder]) {
-                                return data[placeholder];
-                            } else {
-                                console.warn(placeholder + ' not passed for ' + translations[key]);
-                                return placeholder;
-                            }
-                            return data[placeholder] || placeholder;   
-                        });
-                    } else {
-                        console.error("Translation for key " + key + " doesn't exists");
-                        return key;
-                    }
-                }
-
-                game.language = 'pl';
-
-                game.state.add('Boot', Playground.Boot);
-                game.state.add('Preloader', Playground.Preloader);
-                game.state.add('MainMenu', Playground.MainMenu);
-                game.state.add('Game', Playground.Game);
-                game.state.add('Win', Playground.Win);
-                game.state.add('Loose', Playground.Loose);
-
-                game.state.start(
-                    'Boot'
-                );
-            })();
-        </script>
+        <script src="build/index.js"></script>
     </head>
     <body>
+        <div id="content"></div>
     </body>
 </html>
