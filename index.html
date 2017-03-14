@@ -19,6 +19,27 @@
                     Phaser.CANVAS
                 );
 
+                game.getTranslation = function(key, data) {
+                    if (this.translations[key]) {
+                        data = data ? data : {};
+                        var translations = this.translations;
+                        return this.translations[key].replace(/{\w+}/g, function(placeholder) {
+                            if (data[placeholder]) {
+                                return data[placeholder];
+                            } else {
+                                console.warn(placeholder + ' not passed for ' + translations[key]);
+                                return placeholder;
+                            }
+                            return data[placeholder] || placeholder;   
+                        });
+                    } else {
+                        console.error("Translation for key " + key + " doesn't exists");
+                        return key;
+                    }
+                }
+
+                game.language = 'pl';
+
                 game.state.add('Boot', Playground.Boot);
                 game.state.add('Preloader', Playground.Preloader);
                 game.state.add('MainMenu', Playground.MainMenu);

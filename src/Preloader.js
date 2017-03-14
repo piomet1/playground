@@ -13,7 +13,7 @@ Playground.Preloader.prototype = {
         });
         this.preloadText.anchor.setTo(0.5);
 
-        this.load.tilemap('level1', 'assets/data/level1.json', null, Phaser.Tilemap.TILED_JSON);
+        this.load.tilemap('level1', 'data/tilemaps/level1.json', null, Phaser.Tilemap.TILED_JSON);
         this.load.image('grass-tiles', 'assets/images/grass-tiles-2-small.png');
         this.load.image('tree', 'assets/images/tree2-final.png');
         this.load.image('mainMenuButton', 'assets/images/buttonStock1d.png');
@@ -35,13 +35,18 @@ Playground.Preloader.prototype = {
         }
     },
     loadStart: function() {
-        this.preloadText.setText('Game assets loading...'); 
+        this.preloadText.setText(this.game.getTranslation('assets_loading')); 
     },
     fileComplete: function(progress, cacheKey, success, totalLoaded, totalFiles) {
-        this.preloadText.setText('Game loading: ' + progress + '% - ' + totalLoaded + ' out of ' + totalFiles);
+        this.preloadText.setText(
+            this.game.getTranslation('percent_loading', {
+                "{percent}": progress,
+                "{itemsLoaded}": totalLoaded,
+                "{itemsTotal}": totalFiles
+            })
+        );
     },
     loadComplete: function() {
-        this.preloadText.setText('Load complete');
         this.ready = true;
     }
 }

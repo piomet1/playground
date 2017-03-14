@@ -1,0 +1,4 @@
+{
+    "assets_loading": "Trwa wczytywanie...",
+    "percent_loading": "Wczytano {percent}% - {itemsLoaded} z {itemsTotal}"
+}

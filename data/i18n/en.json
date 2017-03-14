@@ -1,0 +1,4 @@
+{
+    "assets_loading": "Loading...",
+    "percent_loading": "Loaded {percent}% - {itemsLoaded} from {itemsTotal}"
+}
