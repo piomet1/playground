@@ -1,24 +1,32 @@
-import Boot from 'states/Boot';
-import Preloader from 'states/Preloader';
-import MainMenu from 'states/MainMenu';
-import Game from 'states/Game';
+import BootState from "state/BootState";
+import PreloaderState from "state/PreloaderState";
+import MainMenuState from "state/MainMenuState";
+import GameState from "state/GameState";
 
 class Playground extends Phaser.Game {
+
     constructor(language) {
         super(
             window.innerWidth * window.devicePixelRatio,
             window.innerHeight * window.devicePixelRatio,
-            Phaser.AUTO
+            Phaser.AUTO,
+            "content",
+            false,
+            true,
+            null
         );
 
         this.language = language;
+        this.title = "Playground";
+        this.translations = {};
 
-        this.state.add('Boot', Boot, false);
-        this.state.add('Preloader', Preloader, false);
-        this.state.add('MainMenu', MainMenu, false);
-        this.state.add('Game', Game, false);
+        // Inicjalizacja stanów
+        this.state.add("Boot", BootState, false);
+        this.state.add("Preloader", PreloaderState, false);
+        this.state.add("MainMenu", MainMenuState, false);
+        this.state.add("Game", GameState, false);
 
-        this.state.start('Boot');
+        this.state.start("Boot");
     }
 
     getTranslation(key, data) {
@@ -29,16 +37,16 @@ class Playground extends Phaser.Game {
                 if (data[placeholder]) {
                     return data[placeholder];
                 } else {
-                    console.warn(placeholder + ' not passed for ' + translations[key]);
+                    console.warn(placeholder + " not passed for " + translations[key]);
                     return placeholder;
                 }
                 return data[placeholder] || placeholder;
             });
         } else {
-            console.error("Translation for key " + key + " doesn't exists");
+            console.warn("Translation for key " + key + " doesn't exists");
             return key;
         }
     }
 }
 
-new Playground('pl');
+new Playground("pl");
