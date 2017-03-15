@@ -10,31 +10,10 @@ export default class GameState extends Phaser.State {
         this.initTilemap();
         this.initPlayer();
         this.map.createLayer("Foreground");
-        this.cursors = this.game.input.keyboard.createCursorKeys();
     }
 
     update() {
         this.game.physics.arcade.collide(this.player, this.collisionLayer);
-
-        this.player.body.velocity.x = 0;
-        this.player.body.velocity.y = 0;
-
-        if (this.cursors.left.isDown) {
-            this.player.body.velocity.x = -60;
-            this.player.animations.play("left");
-        } else if (this.cursors.right.isDown) {
-            this.player.body.velocity.x = 60;
-            this.player.animations.play("right");
-        } else if (this.cursors.down.isDown) {
-            this.player.body.velocity.y = 60;
-            this.player.animations.play("bottom");
-        } else if (this.cursors.up.isDown) {
-            this.player.body.velocity.y = -60;
-            this.player.animations.play("top");
-        } else {
-            this.player.animations.stop();
-            this.player.frame = 0;
-        }
     }
 
     initTilemap() {
@@ -63,11 +42,13 @@ export default class GameState extends Phaser.State {
 
     initPlayer() {
         this.player = new Player({
-            game: this,
+            game: this.game,
             x: this.enterMarker.x,
             y: this.enterMarker.y
         });
 
         this.game.stage.addChild(this.player);
+
+        this.game.camera.follow(this.player);
     }
 }
