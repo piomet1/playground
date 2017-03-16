@@ -12,7 +12,6 @@ var babelify = require('babelify');
 var browserify = require('browserify');
 
 var PHASER_PATH = './node_modules/phaser-ce/build/';
-var PHASER_STATE_TRANSITION_PLUGIN_PATH = './node_modules/phaser-state-transition/dist/';
 var BUILD_PATH = './build';
 var SCRIPTS_PATH = BUILD_PATH + '/scripts';
 var SOURCE_PATH = './src';
@@ -94,21 +93,6 @@ function copyPhaser() {
 
 }
 
-function copyPhaserStateTransitionPlugin() {
-    var srcList = ['phaser-state-transition.min.js'];
-    
-    if (!isProduction()) {
-        srcList.push('phaser-state-transition.js');
-    }
-    
-    srcList = srcList.map(function(file) {
-        return PHASER_STATE_TRANSITION_PLUGIN_PATH + file;
-    });
-        
-    return gulp.src(srcList)
-        .pipe(gulp.dest(SCRIPTS_PATH));
-}
-
 /**
  * Transforms ES2015 code into ES5 code.
  * Optionally: Creates a sourcemap file 'game.js.map' for debugging.
@@ -152,8 +136,7 @@ gulp.task('cleanBuild', cleanBuild);
 gulp.task('copyAssets', ['cleanBuild'], copyAssets);
 gulp.task('copyData', ['copyAssets'], copyData);
 gulp.task('copyPhaser', ['copyData'], copyPhaser);
-gulp.task('copyPhaserStateTransitionPlugin', ['copyPhaser'], copyPhaserStateTransitionPlugin);
-gulp.task('build', ['copyPhaser', 'copyPhaserStateTransitionPlugin'], build);
+gulp.task('build', ['copyPhaser'], build);
 gulp.task('fastBuild', build);
 
 gulp.task('default', ['build']);

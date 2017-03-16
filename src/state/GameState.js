@@ -1,4 +1,5 @@
 import Player from "entity/Player"
+import ForestMap from "entity/map/ForestMap"
 
 export default class GameState extends Phaser.State {
 
@@ -7,47 +8,28 @@ export default class GameState extends Phaser.State {
     }
 
     create() {
-        this.initTilemap();
+        this.initMap();
         this.initPlayer();
-        this.map.createLayer("Foreground");
     }
 
     update() {
-        this.game.physics.arcade.collide(this.player, this.collisionLayer);
+        this.game.physics.arcade.collide(this.player, this.map.collisionLayer);
     }
 
-    initTilemap() {
-        this.map = this.game.add.tilemap("level1");
-
-        this.map.addTilesetImage("grass-tiles-2-small", "grass-tiles");
-        this.map.addTilesetImage("tree2-final", "tree");
-
-        this.baseLayer = this.map.createLayer("Base");
-        this.map.createLayer("Trunks");
-        this.collisionLayer = this.map.createLayer("Collision");
-        this.collisionLayer.visible = false;
-
-        this.map.setCollisionByExclusion([], true, this.collisionLayer);
-
-        this.baseLayer.resizeWorld();
-
-        this.enterMarker = this.map.objects.Meta.filter(function(o) {
-            return o.name == "Enter"
-        });
-
-        if (this.enterMarker.length == 1) {
-            this.enterMarker = this.enterMarker[0];
-        }
+    initMap() {
+        this.map = new ForestMap({game: this.game, key: "level1"});
+        this.map.init();
     }
 
     initPlayer() {
         this.player = new Player({
             game: this.game,
-            x: this.enterMarker.x,
-            y: this.enterMarker.y
+            x: this.map.startMarker.x,
+            y: this.map.startMarker.y
         });
 
-        this.game.stage.addChild(this.player);
+        this.game.world.add(this.player);
+        this.game.world.moveDown(this.player);
 
         this.game.camera.follow(this.player);
     }

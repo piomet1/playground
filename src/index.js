@@ -6,15 +6,7 @@ import GameState from "state/GameState";
 class Playground extends Phaser.Game {
 
     constructor(language) {
-        super(
-            window.innerWidth * window.devicePixelRatio,
-            window.innerHeight * window.devicePixelRatio,
-            Phaser.AUTO,
-            "content",
-            false,
-            true,
-            null
-        );
+        super(640, 480, Phaser.AUTO, "content", false, false, null);
 
         this.language = language;
         this.title = "Playground";

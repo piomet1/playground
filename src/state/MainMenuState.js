@@ -27,10 +27,6 @@ export default class MainMenuState extends Phaser.State {
     }
 
     newGame() {
-        this.game.state.start(
-            'Game',
-            Phaser.Plugin.StateTransition.Out.SlideBottom,
-            Phaser.Plugin.StateTransition.In.SlideTop
-        );
+        this.game.state.start('Game');
     }
 }

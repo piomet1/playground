@@ -1,7 +1,7 @@
 export default class PreloaderState extends Phaser.State {
 
     init() {
-        this.stage.backgroundColor = "#fff";
+        this.stage.backgroundColor = "#000";
     }
 
     preload() {
@@ -77,11 +77,7 @@ export default class PreloaderState extends Phaser.State {
 
     update() {
         if (this.ready == true) {
-            this.game.state.start(
-                "MainMenu",
-                Phaser.Plugin.StateTransition.Out.SlideBottom,
-                Phaser.Plugin.StateTransition.In.SlideTop
-            );
+            this.game.state.start("MainMenu");
         }
     }
 
