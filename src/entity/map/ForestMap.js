@@ -28,5 +28,12 @@ export default class ForestMap extends Phaser.Tilemap {
         }
 
         this.startMarker = this.startMarker[0];
+
+        this.sound = this.game.add.audio("forest_bg1");
+        this.game.sound.setDecodedCallback(this.sound, startSound, this);
+    }
+
+    startSound() {
+        this.sound.loopFull();
     }
 }

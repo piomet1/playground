@@ -59,6 +59,11 @@ export default class PreloaderState extends Phaser.State {
             16
         );
 
+        this.game.load.audio(
+            "forest_bg1",
+            "./assets/sounds/forest_background1.mp3"
+        );
+
         this.game.load.onLoadStart.add(
             this.loadStart,
             this
