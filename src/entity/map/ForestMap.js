@@ -5,6 +5,7 @@ export default class ForestMap extends Phaser.Tilemap {
 
         this.addTilesetImage("grass-tiles-2-small", "grass-tiles");
         this.addTilesetImage("tree2-final", "tree");
+        this.addTilesetImage("big_trees_by_schwarzenacht-d8y14re", "tree2");
     }
 
     init() {
@@ -30,10 +31,6 @@ export default class ForestMap extends Phaser.Tilemap {
         this.startMarker = this.startMarker[0];
 
         this.sound = this.game.add.audio("forest_bg1");
-        this.game.sound.setDecodedCallback(this.sound, startSound, this);
-    }
-
-    startSound() {
         this.sound.loopFull();
     }
 }

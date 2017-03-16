@@ -47,6 +47,11 @@ export default class PreloaderState extends Phaser.State {
         );
 
         this.game.load.image(
+            "tree2",
+            "./assets/images/big_trees_by_schwarzenacht-d8y14re.png"
+        );
+
+        this.game.load.image(
             "mainMenuButton",
             "./assets/images/buttonStock1d.png"
         );
@@ -61,7 +66,7 @@ export default class PreloaderState extends Phaser.State {
 
         this.game.load.audio(
             "forest_bg1",
-            "./assets/sounds/forest_background1.mp3"
+            "./assets/sounds/forest_background1.ogg"
         );
 
         this.game.load.onLoadStart.add(
