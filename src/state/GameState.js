@@ -28,8 +28,7 @@ export default class GameState extends Phaser.State {
             y: this.map.startMarker.y
         });
 
-        this.game.world.add(this.player);
-        this.game.world.moveDown(this.player);
+        this.game.world.addAt(this.player, 5);
 
         this.game.camera.follow(this.player);
     }

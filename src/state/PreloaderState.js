@@ -36,38 +36,15 @@ export default class PreloaderState extends Phaser.State {
             Phaser.Tilemap.TILED_JSON
         );
 
-        this.game.load.image(
-            "grass-tiles",
-            "./assets/images/grass-tiles-2-small.png"
-        );
-
-        this.game.load.image(
-            "tree",
-            "./assets/images/tree2-final.png"
-        );
-
-        this.game.load.image(
-            "tree2",
-            "./assets/images/big_trees_by_schwarzenacht-d8y14re.png"
-        );
-
-        this.game.load.image(
-            "mainMenuButton",
-            "./assets/images/buttonStock1d.png"
-        );
-
-        this.game.load.spritesheet(
-            "indiana",
-            "./assets/images/indianajones.png",
-            32,
-            48,
-            16
-        );
-
-        this.game.load.audio(
-            "forest_bg1",
-            "./assets/sounds/forest_background1.ogg"
-        );
+        this.game.load.image("trees", "./assets/images/trees_by_ayene_chan.png");
+        this.game.load.image("rtp_tileset", "./assets/images/rtp_tileset_by_telles0808.png");
+        this.game.load.image("natures_tiles", "./assets/images/nature_tile_ii_by_ayene_chan.png");
+        this.game.load.image("shrooms", "./assets/images/shrooms_by_ayene_chan.png");
+        this.game.load.image("wood_tileset", "./assets/images/wood_tileset.png");
+        this.game.load.image("mountain_landscape", "./assets/images/mountain_landscape.png");
+        this.game.load.image("mainMenuButton", "./assets/images/buttonStock1d.png");
+        this.game.load.spritesheet("indiana", "./assets/images/indianajones.png", 32, 48, 16);
+        this.game.load.audio("forest_bg1", "./assets/sounds/forest_background1.ogg");
 
         this.game.load.onLoadStart.add(
             this.loadStart,
