@@ -1,7 +1,7 @@
 import Mushroom from "entity/Mushroom"
 
 export default class ForestMap extends Phaser.Tilemap {
-    
+
     constructor({game, key}) {
         super(game, key);
 
@@ -67,7 +67,12 @@ export default class ForestMap extends Phaser.Tilemap {
         let mushroomsNumber = Math.floor(mushroomsTiles * (30/100));
 
         for(let i = 0; i < mushroomsNumber; i++) {
-            let mushroom = new Mushroom();
+            let mushroom = new Mushroom({
+                game: this.game,
+                x: x,
+                y: y
+            });
+            this.game.world.addAt(mushroom, 4);
         }
     }
 }
