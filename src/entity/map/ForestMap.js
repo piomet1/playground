@@ -1,4 +1,5 @@
 import Mushroom from "entity/Mushroom"
+import Butterfly from "entity/Butterfly"
 
 export default class ForestMap extends Phaser.Tilemap {
 
@@ -13,21 +14,28 @@ export default class ForestMap extends Phaser.Tilemap {
     }
 
     init() {
-        this.createLayer("Terrain4").resizeWorld();
-        this.createLayer("Terrain3")
-        this.createLayer("Terrain2")
-        this.createLayer("Terrain1")
+        this.background = this.game.add.group();
+
+        let baseLayer = this.createLayer("Terrain4");
+        baseLayer.resizeWorld();
+
+        this.background.add(baseLayer);
+        this.background.add(this.createLayer("Terrain3"));
+        this.background.add(this.createLayer("Terrain2"));
+        this.background.add(this.createLayer("Terrain1"));
 
         this.collisionLayer = this.createLayer("Collision");
         this.collisionLayer.visible = false;
         this.setCollisionByExclusion([], true, this.collisionLayer);
 
+        this.foreground = this.game.add.group();
+
         // Warstwa elementów nad graczem
-        this.createLayer("Foreground5");
-        this.createLayer("Foreground4");
-        this.createLayer("Foreground3");
-        this.createLayer("Foreground2");
-        this.createLayer("Foreground1");
+        this.foreground.add(this.createLayer("Foreground5"));
+        this.foreground.add(this.createLayer("Foreground4"));
+        this.foreground.add(this.createLayer("Foreground3"));
+        this.foreground.add(this.createLayer("Foreground2"));
+        this.foreground.add(this.createLayer("Foreground1"));
 
         this.startMarker = this.objects.Meta.filter(function(o) {
             return o.name == "Start";
@@ -43,36 +51,82 @@ export default class ForestMap extends Phaser.Tilemap {
         this.sound = this.game.add.audio("forest_bg1");
         this.sound.loopFull();
 
-        this.createMushrooms();
+        this.placeMushrooms();
+        this.spawnButterflies(5);
     }
 
-    createMushrooms() {
-        let mushroomsPlacements = this.objects.MushroomsPlacement;
-        let mushroomsTiles = 0;
+    placeMushrooms() {
         let tileWidth = 32;
         let tileHeight = 32;
-        let x = 0;
-        let y = 0;
-        for (let i = 0; i < mushroomsPlacements.length; i++) {
-            x = mushroomsPlacements[i].width/tileWidth;
-            y = mushroomsPlacements[i].height/tileHeight;
+        let mushroomsPercent = 30;
 
-            if (mushroomsPlacements[i].rectangle) {
-                mushroomsTiles += (x*y);
-            } else {
-                console.warn("Object " + i + " must be a rectangle");
+        let mushroomsPlacements = this.objects.MushroomsPlacement;
+        let mushroomsTilesPositions = [];
+
+        for (let i = 0; i < mushroomsPlacements.length; i++) {
+            let placement = mushroomsPlacements[i];
+
+            if (!placement.rectangle) {
+                console.warn("Object (" + i + ") must be a rectangle");
+                continue;
+            }
+
+            if (placement.width%tileWidth) {
+                console.warn("Object (" + i + ") width must be multiple of " + tileWidth );
+                continue;
+            }
+
+            if (placement.height%tileHeight) {
+                console.warn("Object (" + i + ") height must be multiple of " + tileHeight );
+                continue;
+            }
+
+            let x = mushroomsPlacements[i].width/tileWidth;
+            let y = mushroomsPlacements[i].height/tileHeight;
+            let zoneStartX = mushroomsPlacements[i].x;
+            let zoneStartY = mushroomsPlacements[i].y;
+
+            for (let row = 0; row < x; row++) {
+                for (let col = 0; col < y; col++) {
+                    mushroomsTilesPositions.push({
+                        x: zoneStartX + (row * tileWidth),
+                        y: zoneStartY + (col * tileHeight)
+                    });
+                }
             }
         }
 
-        let mushroomsNumber = Math.floor(mushroomsTiles * (30/100));
+        let mushroomsNumber = Phaser.Math
+            .floorTo(mushroomsTilesPositions.length * (mushroomsPercent/100));
 
-        for(let i = 0; i < mushroomsNumber; i++) {
+        this.mushrooms = this.game.add.group();
+        this.game.world.moveDown(this.mushrooms);
+
+        for (let i = 0; i < mushroomsNumber; i++) {
+            let randomTile = Phaser.ArrayUtils
+                .removeRandomItem(mushroomsTilesPositions);
+
             let mushroom = new Mushroom({
                 game: this.game,
-                x: x,
-                y: y
+                x: randomTile.x,
+                y: randomTile.y
             });
-            this.game.world.addAt(mushroom, 4);
+
+            this.mushrooms.add(mushroom);
+        }
+    }
+
+    spawnButterflies(butterfliesNumber) {
+        this.butterflies = this.game.add.group();
+
+        for (let i = 0; i < butterfliesNumber; i++) {
+            let butterfly = new Butterfly({
+                game: this.game,
+                x: this.game.rnd.integerInRange(0, 800),
+                y: this.game.rnd.integerInRange(0, 600)
+            });
+
+            this.butterflies.add(butterfly);
         }
     }
 }

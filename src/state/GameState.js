@@ -28,7 +28,8 @@ export default class GameState extends Phaser.State {
             y: this.map.startMarker.y
         });
 
-        this.game.world.addAt(this.player, 5);
+        //3 - umiejscowienie zaraz za grupą Foreground
+        this.game.world.addAt(this.player, 3);
 
         this.game.camera.follow(this.player);
     }

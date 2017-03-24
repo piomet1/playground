@@ -43,7 +43,8 @@ export default class PreloaderState extends Phaser.State {
         this.game.load.image("mountain_landscape", "./assets/images/mountain_landscape.png");
         this.game.load.image("mainMenuButton", "./assets/images/buttonStock1d.png");
         this.game.load.spritesheet("indiana", "./assets/images/indianajones.png", 32, 48, 16);
-        this.game.load.spritesheet("mushrooms", "./assets/images/shrooms_by_ayene_chan.png");
+        this.game.load.spritesheet("mushrooms", "./assets/images/shrooms_by_ayene_chan.png", 32, 32, 12);
+        this.game.load.spritesheet("butterflies", "./assets/images/butterflies_by_qtpi.png", 32, 32, 96);
         this.game.load.audio("forest_bg1", "./assets/sounds/forest_background1.ogg");
 
         this.game.load.onLoadStart.add(
