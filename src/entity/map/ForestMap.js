@@ -1,5 +1,5 @@
-import Mushroom from "entity/Mushroom"
-import Butterfly from "entity/Butterfly"
+import MushroomFactory from "entity/mushroom/MushroomFactory"
+import ButterflyFactory from "entity/butterfly/ButterflyFactory"
 
 export default class ForestMap extends Phaser.Tilemap {
 
@@ -102,14 +102,23 @@ export default class ForestMap extends Phaser.Tilemap {
         this.mushrooms = this.game.add.group();
         this.game.world.moveDown(this.mushrooms);
 
+        let mushroomTypes = [
+            "porcini",
+            "saffron-milk-cap",
+            "shrimp",
+            "honey-agaric",
+            "death-cap"
+        ];
+
         for (let i = 0; i < mushroomsNumber; i++) {
             let randomTile = Phaser.ArrayUtils
                 .removeRandomItem(mushroomsTilesPositions);
 
-            let mushroom = new Mushroom({
+            let mushroom = MushroomFactory.getInstance({
                 game: this.game,
                 x: randomTile.x,
-                y: randomTile.y
+                y: randomTile.y,
+                type: Phaser.ArrayUtils.getRandomItem(mushroomTypes)
             });
 
             this.mushrooms.add(mushroom);
@@ -118,12 +127,25 @@ export default class ForestMap extends Phaser.Tilemap {
 
     spawnButterflies(butterfliesNumber) {
         this.butterflies = this.game.add.group();
+        this.game.world.moveDown(this.butterflies);
+
+        let butterflyColors = [
+            "green",
+            "willow-green",
+            "gray",
+            "light-gray",
+            "blue",
+            "light-blue",
+            "pink",
+            "cream"
+        ];
 
         for (let i = 0; i < butterfliesNumber; i++) {
-            let butterfly = new Butterfly({
+            let butterfly = ButterflyFactory.getInstance({
                 game: this.game,
-                x: this.game.rnd.integerInRange(0, 800),
-                y: this.game.rnd.integerInRange(0, 600)
+                x: this.game.rnd.integerInRange(0, this.game.world.width),
+                y: this.game.rnd.integerInRange(0, this.game.world.height),
+                color: Phaser.ArrayUtils.getRandomItem(butterflyColors)
             });
 
             this.butterflies.add(butterfly);
