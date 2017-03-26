@@ -1,12 +1,12 @@
 import MushroomFactory from "entity/mushroom/MushroomFactory"
 import ButterflyFactory from "entity/butterfly/ButterflyFactory"
+import TreeFactory from "entity/tree/TreeFactory"
 
 export default class ForestMap extends Phaser.Tilemap {
 
     constructor({game, key}) {
         super(game, key);
 
-        this.addTilesetImage("trees_by_ayene_chan", "trees");
         this.addTilesetImage("rtp_tileset_by_telles0808", "rtp_tileset");
         this.addTilesetImage("nature_tile_ii_by_ayene_chan", "natures_tiles");
         this.addTilesetImage("wood_tileset", "wood_tileset");
@@ -28,15 +28,6 @@ export default class ForestMap extends Phaser.Tilemap {
         this.collisionLayer.visible = false;
         this.setCollisionByExclusion([], true, this.collisionLayer);
 
-        this.foreground = this.game.add.group();
-
-        // Warstwa elementów nad graczem
-        this.foreground.add(this.createLayer("Foreground5"));
-        this.foreground.add(this.createLayer("Foreground4"));
-        this.foreground.add(this.createLayer("Foreground3"));
-        this.foreground.add(this.createLayer("Foreground2"));
-        this.foreground.add(this.createLayer("Foreground1"));
-
         this.startMarker = this.objects.Meta.filter(function(o) {
             return o.name == "Start";
         });
@@ -51,8 +42,38 @@ export default class ForestMap extends Phaser.Tilemap {
         this.sound = this.game.add.audio("forest_bg1");
         this.sound.loopFull();
 
+        this.placeTrees();
         this.placeMushrooms();
         this.spawnButterflies(5);
+    }
+
+    placeTrees() {
+        let treesPlacements = this.objects.Trees;
+        this.trees = this.game.add.group();
+
+        let treesTypes = [
+            "healthy-leafy",
+            "sickle-leafy",
+            "dead-leafy"
+        ];
+
+        for (let i = 0; i < treesPlacements.length; i++) {
+            let placement = treesPlacements[i];
+            let type = placement.type ? 
+                placement.type : 
+                Phaser.ArrayUtils.getRandomItem(treesTypes);
+
+            let tree = TreeFactory.getInstance({
+                game: this.game,
+                x: (placement.x + placement.width/2),
+                y: (placement.y + placement.height/2),
+                type: type
+            });
+
+            this.trees.add(tree);
+        }
+
+        this.trees.sort();
     }
 
     placeMushrooms() {
@@ -60,7 +81,7 @@ export default class ForestMap extends Phaser.Tilemap {
         let tileHeight = 32;
         let mushroomsPercent = 30;
 
-        let mushroomsPlacements = this.objects.MushroomsPlacement;
+        let mushroomsPlacements = this.objects.Mushrooms;
         let mushroomsTilesPositions = [];
 
         for (let i = 0; i < mushroomsPlacements.length; i++) {

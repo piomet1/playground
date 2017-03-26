@@ -14,10 +14,11 @@ export default class GameState extends Phaser.State {
 
     update() {
         this.game.physics.arcade.collide(this.player, this.map.collisionLayer);
+        this.map.trees.sort('y', Phaser.Group.SORT_ASCENDING);
     }
 
     initMap() {
-        this.map = new ForestMap({game: this.game, key: "level1"});
+        this.map = new ForestMap({game: this.game, key: "forest"});
         this.map.init();
     }
 
@@ -28,8 +29,7 @@ export default class GameState extends Phaser.State {
             y: this.map.startMarker.y
         });
 
-        //3 - umiejscowienie zaraz za grupą Foreground
-        this.game.world.addAt(this.player, 3);
+        this.map.trees.add(this.player);
 
         this.game.camera.follow(this.player);
     }
